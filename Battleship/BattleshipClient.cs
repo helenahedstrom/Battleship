@@ -11,6 +11,7 @@ namespace Battleship
     {
         public void ConnectingToServer(string host, int port, Player player)
         {
+
             var game = new Game();
             var counter = 0;
             using (var client = new TcpClient(host, port))
@@ -87,6 +88,7 @@ namespace Battleship
                             Console.WriteLine(answer);
                         }
                         Console.WriteLine($"Svar: {line}");
+
 
                     } while (networkStream.DataAvailable);
 

@@ -15,7 +15,7 @@ namespace Battleship
               {
                new Boat()
             {
-                Name = "destroyer",
+                Name = "Destroyer",
                 StatusCodeIsHit = "243",
                 StatusCodeIsSunk = "253",
 
@@ -29,7 +29,7 @@ namespace Battleship
 
             new Boat()
             {
-                Name = "battleship",
+                Name = "Battleship",
                 StatusCodeIsHit = "242",
                 StatusCodeIsSunk = "252",
 
@@ -44,7 +44,7 @@ namespace Battleship
 
             new Boat()
             {
-                Name = "carrier",
+                Name = "Carrier",
                 StatusCodeIsHit = "241",
                 StatusCodeIsSunk = "251",
 

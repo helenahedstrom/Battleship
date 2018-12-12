@@ -7,8 +7,8 @@ namespace Battleship
     {
         static void Main(string[] args)
         {
-            var game = new Game();
-            game.CheckCoordinateOnBoard("A5g");
+
+            Console.WriteLine("BattleShip 1.0");
             var shipGen = new ShipGenerator();
             var player = shipGen.GenerateShips();
             foreach (var boat in player.Boats)
@@ -21,13 +21,8 @@ namespace Battleship
                 }
             }
 
-            Console.WriteLine("Försök");
+            Console.WriteLine("\n\nDina Försök(rött är miss, grönt är träff): \n");
 
-            //foreach (var item in collection)
-            //{
-
-            //}
-            
             Console.WriteLine("\nAnge host: ");
 
             var host = Console.ReadLine();
@@ -39,6 +34,15 @@ namespace Battleship
             Console.WriteLine("Namn: ");
 
             player.Name = Console.ReadLine();
+
+   
+            //int x = Console.CursorLeft;
+            //int y = Console.CursorTop;
+            //Console.SetCursorPosition(0, 15);
+            //Console.SetCursorPosition(0, Console.CursorTop - 1);
+            //Console.WriteLine("a5");
+            //// Restore previous position
+            //Console.SetCursorPosition(x, y);
 
             if (string.IsNullOrEmpty(host))
             {

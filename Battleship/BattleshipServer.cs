@@ -37,7 +37,6 @@ namespace Battleship
                         writer.WriteLine("210 BATTLESHIP/1.0");
                         Console.WriteLine("210 BATTLESHIP/1.0");
 
-
                         while (client.Connected)
                         {
 
@@ -104,9 +103,10 @@ namespace Battleship
                                     //break;
                                 }
 
-                                else if (string.Equals(command, "FIRE", StringComparison.InvariantCultureIgnoreCase))
+                                else if (command.Contains("FIRE", StringComparison.InvariantCultureIgnoreCase))
                                 {
-                                    var IsOnBoard = game.CheckCoordinateOnBoard(command);
+                                    var commands = command.Split(" ");
+                                    var IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
                                     if (IsOnBoard)
                                     {
                                         var answer = game.ExecuteFireCommand(command, player);
@@ -123,6 +123,11 @@ namespace Battleship
                                         // Skicka text
                                         writer.WriteLine(text);
                                     
+                                }
+
+                                else if (command.Contains("24"))
+                                {
+
                                 }
 
                                 else
