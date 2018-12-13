@@ -9,5 +9,7 @@ namespace Battleship.Classes
         public List<Boat> Boats { get; set; }
 
         public string Name { get; set; }
+
+        public string Opponent { get; set; }
     }
 }

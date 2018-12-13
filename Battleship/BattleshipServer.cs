@@ -52,7 +52,7 @@ namespace Battleship
                                 }
                                 else
                                 {
-                                    var opponentName = commands[1];
+                                    player.Opponent = commands[1];
                                     Console.WriteLine("220 " + player.Name);
                                     writer.WriteLine("220 " + player.Name);
                                     greeting = true;
@@ -70,7 +70,6 @@ namespace Battleship
                             {
                                 var rnd = new Random();
                                 var startPlayer = rnd.Next(0, 2) == 0;
-                                startPlayer = true;
                                 if (startPlayer)
                                 {
                                     writer.WriteLine("222 Host Starts");
@@ -105,24 +104,50 @@ namespace Battleship
 
                                 else if (command.Contains("FIRE", StringComparison.InvariantCultureIgnoreCase))
                                 {
+                                    var answer = "";
                                     var commands = command.Split(" ");
-                                    var IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
-                                    if (IsOnBoard)
-                                    {
-                                        var answer = game.ExecuteFireCommand(command, player);
-                                    }
-                                    else
+                                    while (commands.Length < 2)
                                     {
                                         Console.WriteLine("500 Syntax Error");
                                         writer.WriteLine("500 Syntax Error");
+                                        command = reader.ReadLine();
+                                        commands = command.Split(" ");
                                     }
 
-                                        Console.WriteLine("Ange text att skicka: (Skriv QUIT för att avsluta)");
-                                        var text = Console.ReadLine();
+                                    if (commands.Length >= 2)
+                                    {
+                                        var IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
 
-                                        // Skicka text
+                                        while (!IsOnBoard)
+                                        {
+                                            Console.WriteLine("500 Syntax Error");
+                                            writer.WriteLine("500 Syntax Error");
+                                            command = reader.ReadLine();
+                                            commands = command.Split(" ");
+                                            IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
+                                        }
+                                        answer = game.ExecuteFireCommand(command, player);
+                                    }
+
+                                    //writer.WriteLine(answer);
+                                    Console.WriteLine(answer);
+                                    if (answer.Contains("260"))
+                                    {
+                                        writer.WriteLine(answer);
+                                    }
+                                    else
+                                    {
+
+                                       
+                                    Console.WriteLine($"{player.Name}'s turn");
+                                    var text = Console.ReadLine();
+
+                                    // Skicka text
+                                    writer.WriteLine(answer);                                    
                                         writer.WriteLine(text);
-                                    
+
+                                    }
+
                                 }
 
                                 else if (command.Contains("24"))
@@ -130,6 +155,13 @@ namespace Battleship
 
                                 }
 
+                                else if (command.Contains("500"))
+                                {
+                                    var text = Console.ReadLine();
+
+                                    // Skicka text
+                                    writer.WriteLine(text);
+                                }
                                 else
                                 {
                                     writer.WriteLine($"UNKNOWN COMMAND: {command}");

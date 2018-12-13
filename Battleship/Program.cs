@@ -7,10 +7,16 @@ namespace Battleship
     {
         static void Main(string[] args)
         {
-
+            var success = false;
+            var host = "";
+            int port = 0;
+            Player player;
+            do
+            {
+                Console.Clear();
             Console.WriteLine("BattleShip 1.0");
             var shipGen = new ShipGenerator();
-            var player = shipGen.GenerateShips();
+            player = shipGen.GenerateShips();
             foreach (var boat in player.Boats)
             {
                 Console.WriteLine("\n" + boat.Name + " ");
@@ -25,24 +31,18 @@ namespace Battleship
 
             Console.WriteLine("\nAnge host: ");
 
-            var host = Console.ReadLine();
+            host = Console.ReadLine();
 
             Console.WriteLine("Ange port: ");
 
-            var port = int.Parse(Console.ReadLine());
+            success = int.TryParse(Console.ReadLine(), out port);
 
             Console.WriteLine("Namn: ");
 
             player.Name = Console.ReadLine();
 
-   
-            //int x = Console.CursorLeft;
-            //int y = Console.CursorTop;
-            //Console.SetCursorPosition(0, 15);
-            //Console.SetCursorPosition(0, Console.CursorTop - 1);
-            //Console.WriteLine("a5");
-            //// Restore previous position
-            //Console.SetCursorPosition(x, y);
+            
+            } while (!success);
 
             if (string.IsNullOrEmpty(host))
             {

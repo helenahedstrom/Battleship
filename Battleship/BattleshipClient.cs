@@ -11,7 +11,7 @@ namespace Battleship
     {
         public void ConnectingToServer(string host, int port, Player player)
         {
-
+            
             var game = new Game();
             var counter = 0;
             using (var client = new TcpClient(host, port))
@@ -69,25 +69,62 @@ namespace Battleship
                             line = reader.ReadLine();
                             Console.WriteLine(line);                            
                         }
+
+                        if (line.Contains("220"))
+                        {
+                            var commands = line.Split(" ");
+                             player.Opponent = commands[1];
+
+                        }
+
+                        if (line.Contains("500"))
+                        {
+                            var text = Console.ReadLine();
+
+                            // Skicka text
+                            writer.WriteLine(text);
+
+
+                        }
                         if (line.Contains("Fire", StringComparison.InvariantCultureIgnoreCase))
                         {
+                            Console.WriteLine(player.Opponent + " tur");
                             var answer = "";
                             var commands = line.Split(" ");
-                            var IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
-                            if (IsOnBoard)
-                            {
-                            answer = game.ExecuteFireCommand(line, player);
-                            }
-                            else
+                            while (commands.Length < 2)
                             {
                                 Console.WriteLine("500 Syntax Error");
                                 writer.WriteLine("500 Syntax Error");
+                                reader.ReadLine();
+                                line = Console.ReadLine();
+                                commands = line.Split(" ");
                             }
-           
+                            
+                            if (commands.Length >= 2)
+                            {
+                                var IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
+
+                                while(!IsOnBoard)
+                                {
+                                    Console.WriteLine("500 Syntax Error");
+                                    writer.WriteLine("500 Syntax Error");
+                                    line = reader.ReadLine();                                   
+                                    commands = line.Split(" ");
+                                    IsOnBoard = game.CheckCoordinateOnBoard(commands[1]);
+                                }
+                                answer = game.ExecuteFireCommand(line, player);
+                            }
+
                             writer.WriteLine(answer);
                             Console.WriteLine(answer);
+                            Console.WriteLine(player.Name + " tur");
                         }
+                        else
+                        {
+
                         Console.WriteLine($"Svar: {line}");
+                        }
+                        
 
 
                     } while (networkStream.DataAvailable);
